@@ -71,20 +71,20 @@ describe Grid do
 end
 
 
-describe GridUnit do
+describe Tile do
   it 'inspects smells' do
-    unit = GridUnit.new GridUnit => 4, Floor => 3
-    unit.inspect.should == 'GridUnit(G:4,F:3)'
+    unit = Tile.new Tile => 4, Floor => 3
+    unit.inspect.should == 'Tile(T:4,F:3)'
   end
 
   describe '#smell_for' do
     it 'returns the smell of a unit' do
-      unit = GridUnit.new Floor => 2
+      unit = Tile.new Floor => 2
       unit.smell_for(Floor).should == 2
     end
 
     it 'returns 0 if a unit does not exist' do
-      unit = GridUnit.new
+      unit = Tile.new
       unit.smell_for(Floor).should == 0
     end
   end

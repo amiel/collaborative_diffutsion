@@ -24,7 +24,7 @@ class Grid
 end
 
 
-class GridUnit
+class Tile
   attr_reader :smells
   def initialize(smells = {})
     @smells = smells
@@ -49,7 +49,7 @@ class GridUnit
   end
 end
 
-class Floor < GridUnit
+class Floor < Tile
   def iterate!(neighbor_matrix)
     self.class.new neighbor_matrix.inject(Hash.new) { |smells, e|
       e.smells.each do |unit, smell|
@@ -62,8 +62,8 @@ class Floor < GridUnit
   end
 end
 
-class Dude < GridUnit
+class Dude < Tile
 end
 
-class Enemy < GridUnit
+class Enemy < Tile
 end
