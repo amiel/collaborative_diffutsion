@@ -2,8 +2,13 @@ require 'matrix'
 
 class Grid
   attr_reader :matrix
-  def initialize(width, height, &blk)
-    @matrix = Matrix.build(width, height, &blk)
+
+  def initialize(matrix)
+    @matrix = matrix
+  end
+
+  def self.build(width, height, &blk)
+    new Matrix.build(width, height, &blk)
   end
 
   def smell_map_for(unit)
@@ -12,12 +17,23 @@ class Grid
     end
   end
 
+  def padded_matrix
+    Matrix.build(@matrix.row_size + 2, @matrix.column_size + 2) do |row, column|
+      if row < 1 || column < 1
+        nil
+      else
+        @matrix[row - 1, column - 1]
+      end
+    end
+  end
+
   def neighbors_for_cell(row, column)
-    @matrix.minor(row - 1, 3, column - 1, 3)
+    padded_matrix.minor(row, 3, column, 3)
   end
 
   def iterate!
-    self.class.new @matrix.row_size, @matrix.column_size do |row, column|
+    # TODO: use new ... collect
+    self.class.build @matrix.row_size, @matrix.column_size do |row, column|
       @matrix[row, column].iterate! neighbors_for_cell(row, column)
     end
   end
