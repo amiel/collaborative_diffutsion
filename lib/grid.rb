@@ -31,11 +31,16 @@ class Grid
     padded_matrix.minor(row, 3, column, 3)
   end
 
+  def neighbors_for_tile(tile)
+    neighbors_for_cell *@matrix.index(tile)
+  end
+
   def iterate!
-    # TODO: use new ... collect
-    self.class.build @matrix.row_size, @matrix.column_size do |row, column|
-      @matrix[row, column].iterate! neighbors_for_cell(row, column)
+    new_matrix = @matrix.collect do |tile|
+      tile.iterate! self
     end
+
+    self.class.new new_matrix
   end
 end
 
@@ -48,6 +53,10 @@ class Tile
 
   def self.tiny_inspect
     self.name.to_s[0]
+  end
+
+  def new(*_)
+    self.class.new(*_)
   end
 
   def smell_for(unit)
@@ -66,8 +75,8 @@ class Tile
 end
 
 class Floor < Tile
-  def iterate!(neighbor_matrix)
-    self.class.new neighbor_matrix.inject(Hash.new) { |smells, e|
+  def iterate!(grid)
+    new grid.neighbors_for_tile(self).inject(Hash.new) { |smells, e|
       e.smells.each do |unit, smell|
         smells[unit] ||= 0
         smells[unit] += e.smell_for(unit).to_f / 9
