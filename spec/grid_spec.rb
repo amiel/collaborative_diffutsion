@@ -1,4 +1,5 @@
 require 'grid'
+require 'floor'
 
 describe Grid do
   it 'initializes and inspects' do
@@ -98,42 +99,3 @@ describe Grid do
   end
 end
 
-
-describe Tile do
-  it 'inspects smells' do
-    unit = Tile.new Tile => 4, Floor => 3
-    unit.inspect.should == 'Tile(T:4,F:3)'
-  end
-
-  describe '#smell_for' do
-    it 'returns the smell of a unit' do
-      unit = Tile.new Floor => 2
-      unit.smell_for(Floor).should == 2
-    end
-
-    it 'returns 0 if a unit does not exist' do
-      unit = Tile.new
-      unit.smell_for(Floor).should == 0
-    end
-  end
-
-end
-
-describe Floor do
-  describe 'iterate!' do
-    it 'calculates the average of all its neighbors' do
-      tile = Floor.new
-      new_tile = tile.iterate! Grid.new(Matrix[
-        [Floor.new(Dude => 1), Floor.new(Dude => 0.8), Floor.new],
-        [Floor.new, tile, Floor.new(Enemy => 0.9)],
-        [nil, nil, nil],
-      ])
-
-      new_tile.smells.should == {
-        Dude => 1.8/9,
-        Enemy => 0.9/9,
-      }
-    end
-  end
-
-end
