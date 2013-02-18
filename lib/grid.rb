@@ -11,31 +11,38 @@ class Grid
     new Matrix.build(width, height, &blk)
   end
 
+  def pretty_print
+    @matrix.each_with_index do |tile, row, column|
+      print tile.char
+      print "\n" if column == @matrix.column_size - 1
+    end
+  end
+
   def smell_map_for(unit)
     @matrix.collect do |cell|
       cell.smell_for(unit)
     end
   end
 
-  # Returns @matrix, but with nils all the way around it.
-  def padded_matrix
-    Matrix.build(@matrix.row_size + 2, @matrix.column_size + 2) do |row, column|
-      # Matrix with an index greater than it's size returns nil, but negative
-      # indeces wrap around, so we have to manually return nil in that case.
-      if row < 1 || column < 1
-        nil
-      else
-        @matrix[row - 1, column - 1]
-      end
+  def [](row, column)
+    if row < 0 || column < 0 || row >= @matrix.row_size || column >= @matrix.column_size
+      nil # TODO: EdgeTile
+    else
+      @matrix[row, column]
     end
   end
 
   def neighbors_for_cell(row, column)
-    padded_matrix.minor(row, 3, column, 3)
+    [
+      self[row - 1, column], # Top
+      self[row, column + 1], # Right
+      self[row + 1, column], # Bottom
+      self[row, column - 1], # Left
+    ]
   end
 
   def neighbors_for_tile(tile)
-    neighbors_for_cell *@matrix.index(tile)
+    self.neighbors_for_cell *@matrix.index(tile)
   end
 
   def iterate!
