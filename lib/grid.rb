@@ -17,8 +17,11 @@ class Grid
     end
   end
 
+  # Returns @matrix, but with nils all the way around it.
   def padded_matrix
     Matrix.build(@matrix.row_size + 2, @matrix.column_size + 2) do |row, column|
+      # Matrix with an index greater than it's size returns nil, but negative
+      # indeces wrap around, so we have to manually return nil in that case.
       if row < 1 || column < 1
         nil
       else
