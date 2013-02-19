@@ -1,5 +1,6 @@
 class Tile
   attr_reader :smells
+  attr_accessor :grid
   def initialize(smells = {})
     @smells = smells
   end

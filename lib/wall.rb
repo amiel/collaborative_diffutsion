@@ -5,8 +5,7 @@ require 'tile'
 class Wall < Tile
 
   def char
-    # WallCharacter.new(self).to_s
-    '|'
+    WallCharacter.new(self).to_s
   end
 
   class WallCharacter
@@ -23,13 +22,37 @@ class Wall < Tile
                 (left   ? 1 << 3 : 0)
     end
 
+    def is_a_wall?(side)
+      neighbors[side].is_a?(Wall)
+    end
+
+    def top
+      is_a_wall? 0
+    end
+
+    def right
+      is_a_wall? 1
+    end
+
+    def bottom
+      is_a_wall? 2
+    end
+
+    def left
+      is_a_wall? 3
+    end
+
+    def neighbors
+      # TODO: Fix demeter's violation
+      @_neighbors = @wall.grid.neighbors_for_tile(@wall)
+    end
 
     def to_s
-      WALL_CHARACTERS[@value]
+      WALL_CHARACTERS[index]
     end
 
     def to_i
-      @value
+      index
     end
   end
 end

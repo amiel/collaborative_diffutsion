@@ -5,6 +5,9 @@ class Grid
 
   def initialize(matrix)
     @matrix = matrix
+    @matrix.each do |t|
+      t.grid = self if t.respond_to?(:grid=)
+    end
   end
 
   def self.build(width, height, &blk)
