@@ -79,34 +79,34 @@ GRID
   end
 
   describe 'iterate!' do
-    # # TODO: Should average the four neighbors without self.
-    # it 'computes averages' do
-    #   start_smells = Matrix[
-    #     [0, 0, 0.0, 0],
-    #     [0, 1, 0.8, 0],
-    #     [0, 0, 0.9, 0],
-    #     [0, 0, 0.0, 0],
-    #   ]
+    it 'computes averages' do
+      start_smells = Matrix[
+        [0, 0, 0.0, 0],
+        [0, 1, 0.8, 0],
+        [0, 0, 0.4, 0],
+        [0, 0, 0.0, 0],
+      ]
 
-    #   grid = Grid.build(4, 4) do |row, column|
-    #     Floor.new Dude => start_smells[row, column]
-    #   end
+      grid = Grid.build(4, 4) do |row, column|
+        Floor.new Dude => start_smells[row, column]
+      end
 
-    #   new_grid = grid.iterate!
-    #   smell_map = new_grid.smell_map_for(Dude)
-    #   smell_map = (smell_map * 100).round
-    #   smell_map.should == Matrix[
-    #     [11, 20, 20,  9],
-    #     [11, 30, 30, 19],
-    #     [11, 30, 30, 19],
-    #     [ 0, 10, 10, 10],
-    #   ]
+      new_grid = grid.iterate!
+      smell_map = new_grid.smell_map_for(Dude)
+      smell_map = (smell_map * 100).round
+      smell_map.should == Matrix[
+        [ 0, 25, 20,  0],
+        [25, 20, 35, 20],
+        [ 0, 35, 20, 10],
+        [ 0,  0, 10,  0],
+      ]
 
-    #   30.times { new_grid = new_grid.iterate! }
-    #   smell_map = new_grid.smell_map_for(Dude)
-    #   smell_map = (smell_map * 100).round
-    #   smell_map.should == Matrix.zero(4, 4)
-    # end
+      # eventually, it dissapates
+      30.times { new_grid = new_grid.iterate! }
+      smell_map = new_grid.smell_map_for(Dude)
+      smell_map = (smell_map * 100).round
+      smell_map.should == Matrix.zero(4, 4)
+    end
   end
 end
 
