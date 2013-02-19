@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'grid'
 require 'floor'
 require 'wall'
@@ -18,9 +20,20 @@ describe Grid do
         [Wall.new, Wall.new, Wall.new, Wall.new, Wall.new],
       ]
 
-      puts
-      grid.pretty_print
-      puts
+      buffer = ''
+      grid.pretty_print(buffer)
+
+      expected = <<-GRID
+┌─┬─┐
+│ │ │
+├─┼─┤
+│ ╵ │
+│   │
+└───┘
+GRID
+
+    buffer.should == expected
+
 
     end
   end

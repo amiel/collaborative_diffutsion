@@ -14,10 +14,10 @@ class Grid
     new Matrix.build(width, height, &blk)
   end
 
-  def pretty_print
+  def pretty_print(stream = STDOUT)
     @matrix.each_with_index do |tile, row, column|
-      print tile.char
-      print "\n" if column == @matrix.column_size - 1
+      stream << tile.char
+      stream << "\n" if column == @matrix.column_size - 1
     end
   end
 

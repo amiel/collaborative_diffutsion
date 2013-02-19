@@ -8,6 +8,10 @@ class Wall < Tile
     WallCharacter.new(self).to_s
   end
 
+  def neighbors
+    grid.neighbors_for_tile(self)
+  end
+
   class WallCharacter
     WALL_CHARACTERS = %w[ ■ ╵ ╶ └ ╷ │ ┌ ├ ╸ ┘ ─ ┴ ┐ ┤ ┬ ┼ ].freeze
 
@@ -44,7 +48,7 @@ class Wall < Tile
 
     def neighbors
       # TODO: Fix demeter's violation
-      @_neighbors = @wall.grid.neighbors_for_tile(@wall)
+      @_neighbors = @wall.neighbors
     end
 
     def to_s
