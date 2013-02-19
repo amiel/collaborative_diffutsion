@@ -9,35 +9,6 @@ describe Grid do
     grid = Grid.build(4, 4) { Floor.new }
   end
 
-  describe '#print' do
-    it 'prints a grid?' do
-      grid = Grid.new Matrix[
-        [Wall.new, Wall.new, Wall.new, Wall.new, Wall.new],
-        [Wall.new, Floor.new, Wall.new, Floor.new, Wall.new],
-        [Wall.new, Wall.new, Wall.new, Wall.new, Wall.new],
-        [Wall.new, Floor.new, Wall.new, Floor.new, Wall.new],
-        [Wall.new, Floor.new, Floor.new, Floor.new, Wall.new],
-        [Wall.new, Wall.new, Wall.new, Wall.new, Wall.new],
-      ]
-
-      buffer = ''
-      grid.pretty_print(buffer)
-
-      expected = <<-GRID
-┌─┬─┐
-│ │ │
-├─┼─┤
-│ ╵ │
-│   │
-└───┘
-GRID
-
-    buffer.should == expected
-
-
-    end
-  end
-
   describe '#smell_map_for' do
     it 'returns a smell map for a particular unit' do
       grid = Grid.build(4, 4) do |row, column|

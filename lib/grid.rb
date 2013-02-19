@@ -14,13 +14,6 @@ class Grid
     new Matrix.build(width, height, &blk)
   end
 
-  def pretty_print(stream = STDOUT)
-    @matrix.each_with_index do |tile, row, column|
-      stream << tile.char
-      stream << "\n" if column == @matrix.column_size - 1
-    end
-  end
-
   def smell_map_for(unit)
     @matrix.collect do |cell|
       cell.smell_for(unit)

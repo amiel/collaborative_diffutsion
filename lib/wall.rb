@@ -3,6 +3,9 @@
 require 'tile'
 
 class Wall < Tile
+  def iterate!
+    self
+  end
 
   def char
     WallCharacter.new(self).to_s
