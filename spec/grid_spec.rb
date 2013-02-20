@@ -3,6 +3,7 @@
 require 'grid'
 require 'floor'
 require 'wall'
+require 'thing'
 
 describe Grid do
   it 'initializes and inspects' do
@@ -23,7 +24,7 @@ describe Grid do
     it 'returns a smell map for a particular unit' do
       grid = Grid.build(4, 4) do |row, column|
         if row == 1 && column == 2
-          Floor.new Floor => 1
+          Floor.new nil, Floor => 1
         else
           Floor.new
         end
@@ -65,7 +66,7 @@ describe Grid do
         [0, 0, 0],
         [0, 1, 0],
         [0, 0, 0],
-      ].collect { |n| Floor.new Dude => n }
+      ].collect { |n| Floor.new nil, Dude => n }
 
       new_grid = grid.iterate!
       smell_map = new_grid.smell_map_for(Dude)
@@ -85,7 +86,7 @@ describe Grid do
       ]
 
       grid = Grid.build(4, 4) do |row, column|
-        Floor.new Dude => start_smells[row, column]
+        Floor.new nil, Dude => start_smells[row, column]
       end
 
       new_grid = grid.iterate!
@@ -103,6 +104,34 @@ describe Grid do
       smell_map = new_grid.smell_map_for(Dude)
       smell_map = (smell_map * 100).round
       smell_map.should == Matrix.zero(4, 4)
+    end
+
+    it 'handles things' do
+      grid = Grid.new Matrix[
+        [0, 0, 0],
+        [0, 1, 0],
+        [0, 0, 0],
+      ].collect { |n|
+        Floor.new(n == 1 ? Dude.new : nil, Dude => n)
+      }
+
+      new_grid = grid.iterate!
+      smell_map = new_grid.smell_map_for(Dude)
+      smell_map.should == Matrix[
+        [0,    0.25, 0   ],
+        [0.25, 1,    0.25],
+        [0,    0.25, 0   ],
+      ]
+
+      new_grid = new_grid.iterate!
+      smell_map = new_grid.smell_map_for(Dude)
+      smell_map.map {|s| s.round(2) }.should == Matrix[
+        [0.13, 0.25, 0.13],
+        [0.25, 1,    0.25],
+        [0.13, 0.25, 0.13],
+      ]
+
+
     end
   end
 end

@@ -14,4 +14,8 @@ GRID
       ['Wall()', 'Wall()', 'Wall()', 'Wall()', 'Wall()'],
     ]
   end
+
+  it 'adds a "dude"' do
+
+  end
 end
