@@ -9,6 +9,16 @@ describe Grid do
     grid = Grid.build(4, 4) { Floor.new }
   end
 
+  describe '#==' do
+    it 'is true for equal matricies' do
+      Grid.new(Matrix[[1],[0]]).should == Grid.new(Matrix[[1],[0]])
+    end
+
+    it 'is not true for not equal matricies' do
+      Grid.new(Matrix[[1]]).should_not == Grid.new(Matrix[[2]])
+    end
+  end
+
   describe '#smell_map_for' do
     it 'returns a smell map for a particular unit' do
       grid = Grid.build(4, 4) do |row, column|
@@ -50,6 +60,22 @@ describe Grid do
   end
 
   describe 'iterate!' do
+    it 'computes a simple smell map' do
+      grid = Grid.new Matrix[
+        [0, 0, 0],
+        [0, 1, 0],
+        [0, 0, 0],
+      ].collect { |n| Floor.new Dude => n }
+
+      new_grid = grid.iterate!
+      smell_map = new_grid.smell_map_for(Dude)
+      smell_map.should == Matrix[
+        [0,    0.25, 0   ],
+        [0.25, 0,    0.25],
+        [0,    0.25, 0   ],
+      ]
+    end
+
     it 'computes averages' do
       start_smells = Matrix[
         [0, 0, 0.0, 0],

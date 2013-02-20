@@ -48,5 +48,9 @@ class Grid
 
     self.class.new new_matrix
   end
+
+  def ==(other)
+    @matrix == other.matrix
+  end
 end
 

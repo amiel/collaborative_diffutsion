@@ -5,7 +5,7 @@ require 'wall'
 require 'floor'
 
 describe GridPrinter do
-  describe '#print' do
+  describe '#write' do
     it 'prints a grid?' do
       grid = Grid.new Matrix[
         [Wall.new, Wall.new, Wall.new, Wall.new, Wall.new],

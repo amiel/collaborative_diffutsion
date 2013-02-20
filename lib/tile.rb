@@ -26,5 +26,10 @@ class Tile
   def inspect
     "#{self.class}(#{inspect_smells})"
   end
+
+  # This is not good, it screws up @matrix.index (used in Grid)
+  # def ==(other)
+  #   self.inspect == other.inspect
+  # end
 end
 
