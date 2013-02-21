@@ -61,6 +61,17 @@ describe Grid do
   end
 
   describe 'iterate!' do
+    it 'processes moves' do
+      grid = Grid.new Matrix[
+        [Floor.new, Floor.new, Floor.new],
+        [Floor.new, Floor.new(Dude.new), Floor.new],
+        [Floor.new, Floor.new, Floor.new],
+      ]
+
+      grid = grid.iterate!
+
+    end
+
     it 'computes a simple smell map' do
       grid = Grid.new Matrix[
         [0, 0, 0],

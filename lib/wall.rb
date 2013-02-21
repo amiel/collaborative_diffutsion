@@ -3,7 +3,7 @@
 require 'tile'
 
 class Wall < Tile
-  def iterate!
+  def iterate!(grid)
     self
   end
 

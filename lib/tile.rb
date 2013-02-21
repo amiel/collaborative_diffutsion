@@ -1,7 +1,9 @@
 class Tile
   attr_reader :thing, :smells
+
   # TODO: This is not immutable, which was one of my design goals
   attr_accessor :grid
+
   def initialize(thing = nil, smells = {})
     @thing, @smells = thing, smells
   end

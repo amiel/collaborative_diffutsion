@@ -41,12 +41,20 @@ class Grid
     self.neighbors_for_cell *@matrix.index(tile)
   end
 
+  # TODO: Rename iterate! to iterate (it is immutable, and therefore ! is
+  # confusing
+
   def iterate!
-    new_matrix = @matrix.collect do |tile|
+    matrix = @matrix
+    # matrix = matrix.collect do |tile|
+    #   tile.process_moves self
+    # end
+
+    matrix = matrix.collect do |tile|
       tile.iterate! self
     end
 
-    self.class.new new_matrix
+    self.class.new matrix
   end
 
   def ==(other)

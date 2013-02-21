@@ -1,6 +1,7 @@
 require 'grid'
 require 'floor'
 require 'thing'
+require 'wall'
 
 describe Floor do
   describe '#iterate!' do
@@ -40,6 +41,24 @@ describe Floor do
           Enemy => 2.4/4,
         }
       end
+
+      it 'always has a smell of 1 for the thing even if it has no smells' do
+        tile = Floor.new Dude.new
+        grid = Grid.new Matrix[]
+
+        grid.should_receive(:neighbors_for_tile).with(tile).and_return [
+          Floor.new,
+          Floor.new,
+          Wall.new,
+          nil,
+        ]
+
+        new_tile = tile.iterate! grid
+        new_tile.smells.should == {
+          Dude => 1,
+        }
+      end
+
 
     end
   end

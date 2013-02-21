@@ -26,6 +26,8 @@ class GridBuilder
           Floor.new
         when '*'
           Floor.new Dude.new
+        when '%'
+          Floor.new Enemy.new
         else
           Wall.new
         end
