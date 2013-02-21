@@ -1,8 +1,7 @@
 require 'grid'
 require 'wall'
 require 'floor'
-# require 'things'
-#
+require 'thing'
 
 class GridBuilder
   def initialize(stream)
@@ -25,6 +24,8 @@ class GridBuilder
         case character
         when /\s/
           Floor.new
+        when '*'
+          Floor.new Dude.new
         else
           Wall.new
         end

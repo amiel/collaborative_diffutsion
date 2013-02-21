@@ -21,11 +21,16 @@ class Tile
   def inspect_smells
     smells.map { |unit, amount|
       "#{unit.tiny_inspect}:#{amount}"
-    }.join(',')
+    }.join(',') if smells.any?
+  end
+
+  def inspect_thing
+    thing.class.tiny_inspect if thing
   end
 
   def inspect
-    "#{self.class}(#{inspect_smells})"
+    args = [inspect_thing, inspect_smells].compact.join(',')
+    "#{self.class}(#{args})"
   end
 
   # This is not good, it screws up @matrix.index (used in Grid)
