@@ -63,13 +63,26 @@ describe Grid do
   describe 'iterate!' do
     it 'processes moves' do
       grid = Grid.new Matrix[
+        [Floor.new, Floor.new(Enemy.new), Floor.new],
         [Floor.new, Floor.new, Floor.new],
         [Floor.new, Floor.new(Dude.new), Floor.new],
         [Floor.new, Floor.new, Floor.new],
       ]
 
+      # Once to process smells
+      grid = grid.iterate_smells
+      grid = grid.iterate_smells
+      # Once to process moves
       grid = grid.iterate!
 
+      expected = Grid.new Matrix[
+        [Floor.new, Floor.new, Floor.new],
+        [Floor.new, Floor.new(Enemy.new), Floor.new],
+        [Floor.new, Floor.new(Dude.new), Floor.new],
+        [Floor.new, Floor.new, Floor.new],
+      ]
+
+      grid.matrix.map(&:inspect_thing).should == expected.matrix.map(&:inspect_thing)
     end
 
     it 'computes a simple smell map' do

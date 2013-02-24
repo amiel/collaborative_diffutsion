@@ -38,23 +38,43 @@ class Grid
   end
 
   def neighbors_for_tile(tile)
-    self.neighbors_for_cell *@matrix.index(tile)
+    row, column = @matrix.index(tile)
+    self.neighbors_for_cell row, column
+  end
+
+  def take_thing(tile)
+    tile.thing
+
+  end
+
+  def process_smells
   end
 
   # TODO: Rename iterate! to iterate (it is immutable, and therefore ! is
   # confusing
 
+  def iterate_smells
+    grid = self
+
+    grid = self.class.new(grid.matrix.collect { |tile|
+      tile.iterate! grid
+    })
+
+    grid
+  end
+
   def iterate!
-    matrix = @matrix
-    # matrix = matrix.collect do |tile|
-    #   tile.process_moves self
-    # end
+    grid = self
 
-    matrix = matrix.collect do |tile|
-      tile.iterate! self
-    end
+    grid = self.class.new(grid.matrix.collect { |tile|
+      tile.process_moves grid
+    })
 
-    self.class.new matrix
+    trid = self.class.new(grid.matrix.collect { |tile|
+      tile.iterate! grid
+    })
+
+    grid
   end
 
   def ==(other)

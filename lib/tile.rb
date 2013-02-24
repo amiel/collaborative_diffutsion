@@ -31,7 +31,10 @@ class Tile
   end
 
   def inspect
-    args = [inspect_thing, inspect_smells].compact.join(',')
+    args = [
+      inspect_thing,
+      inspect_smells,
+    ].compact.join(',')
     "#{self.class}(#{args})"
   end
 

@@ -7,6 +7,10 @@ class Wall < Tile
     self
   end
 
+  def process_moves(grid)
+    self
+  end
+
   def char
     WallCharacter.new(self).to_s
   end

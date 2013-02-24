@@ -1,7 +1,7 @@
 require 'tile'
 
 class Floor < Tile;end
-class Dude < Tile;end
+class Dude < Thing;end
 
 
 describe Tile do
